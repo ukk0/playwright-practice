@@ -1,4 +1,5 @@
 import pytest
+
 from playwright_models.shopping_cart_page import ShoppingCart
 
 URL = "https://www.saucedemo.com/cart.html"

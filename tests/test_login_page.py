@@ -1,4 +1,5 @@
 import pytest
+
 from playwright_models.login_page import LoginPage
 
 URL = "https://www.saucedemo.com/"

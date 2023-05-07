@@ -7,7 +7,7 @@ def login_cookie():
         "name": "session-username",
         "value": "standard_user",
         "domain": "www.saucedemo.com",
-        "path": "/"
+        "path": "/",
     }
     return cookie
 

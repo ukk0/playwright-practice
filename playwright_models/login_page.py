@@ -9,9 +9,7 @@ class LoginPage:
         self.login_button = page.get_by_test_id("login-button")
         self.login_error_message = page.get_by_test_id("error")
 
-    def login_user(
-        self, username: str = "standard_user", password: str = "secret_sauce"
-    ):
+    def login_user(self, username: str = "standard_user", password: str = "secret_sauce"):
         self.user_name_input.fill(username)
         self.user_password_input.fill(password)
         self.login_button.click()

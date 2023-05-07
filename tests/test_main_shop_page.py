@@ -1,4 +1,5 @@
 import pytest
+
 from playwright_models.main_shop_page import ShopPage
 
 URL = "https://www.saucedemo.com/inventory.html"

@@ -35,3 +35,11 @@ def test_item_prices_match_total(page, playwright, login_cookie, cart_fill_scrip
     page.context.add_init_script(cart_fill_script)
     page.goto(url="https://www.saucedemo.com/checkout-step-two.html")
 
+    # List and sum all the prices of items at checkout, compare them with total displayed
+    sum_of_all_item_prices = sum([float(price[1:]) for price in check.checkout_item_price.all_inner_texts()])
+    subtotal_price = float(check.summary_subtotal_label.inner_text().split('$')[1])
+    tax_amount_price = float(check.summary_tax_label.inner_text().split('$')[1])
+    total_price = float(check.summary_total_label.inner_text().split('$')[1])
+
+    assert sum_of_all_item_prices == subtotal_price
+    assert subtotal_price + tax_amount_price == total_price

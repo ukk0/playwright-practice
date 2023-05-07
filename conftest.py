@@ -10,3 +10,9 @@ def login_cookie():
         "path": "/"
     }
     return cookie
+
+
+@pytest.fixture
+def cart_fill_script():
+    init_script = "localStorage.setItem('cart-contents', '[0, 1, 2, 3, 4, 5]')"
+    return init_script

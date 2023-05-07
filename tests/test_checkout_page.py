@@ -43,3 +43,18 @@ def test_item_prices_match_total(page, playwright, login_cookie, cart_fill_scrip
 
     assert sum_of_all_item_prices == subtotal_price
     assert subtotal_price + tax_amount_price == total_price
+
+
+def test_order_payment_can_be_finished(page, playwright, login_cookie, cart_fill_script):
+    check = CheckoutPage(page, playwright)
+
+    # Skip login and payment info and navigate to final checkout with a pre-filled shopping cart
+    page.context.add_cookies([login_cookie])
+    page.context.add_init_script(cart_fill_script)
+    page.goto(url="https://www.saucedemo.com/checkout-step-two.html")
+
+    # Finish payment, assert success and return to shop
+    check.finalize_payment()
+    assert check.thank_you_page.is_visible()
+    check.return_to_shop()
+    page.expect_navigation(url="https://www.saucedemo.com/inventory.html")

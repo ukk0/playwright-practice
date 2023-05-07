@@ -6,11 +6,11 @@ class ShopPage:
 
         self.hamburger_menu = page.get_by_role("button", name="Open Menu")
         self.side_menu_wrapper = page.locator("[class='bm-menu-wrap']")
-        self.menu_all_items_button = page.get_by_role("link", name="All Items")
-        self.menu_about_button = page.get_by_role("link", name="About")
-        self.menu_logout_button = page.get_by_role("link", name="Logout")
-        self.menu_reset_app_button = page.get_by_role("link", name="Reset App State")
-        self.close_menu_button = page.get_by_role("button", name="Close Menu")
+        self.menu_all_items_button = page.get_by_role(role="link", name="All Items")
+        self.menu_about_button = page.get_by_role(role="link", name="About")
+        self.menu_logout_button = page.get_by_role(role="link", name="Logout")
+        self.menu_reset_app_button = page.get_by_role(role="link", name="Reset App State")
+        self.close_menu_button = page.get_by_role(role="button", name="Close Menu")
 
         self.inventory_filter = page.get_by_test_id("product_sort_container")
         self.inventory_items = page.locator("[class='inventory_list'] [class='inventory_item_name']")

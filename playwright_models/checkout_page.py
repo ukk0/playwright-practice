@@ -5,9 +5,9 @@ class CheckoutPage:
         playwright.selectors.set_test_id_attribute("data-test")
 
         self.submit_info_button = page.get_by_test_id("continue")
-        self.input_first_name = page.get_by_placeholder("First Name")
-        self.input_last_name = page.get_by_placeholder("Last Name")
-        self.input_zip_code = page.get_by_placeholder("Zip/Postal Code")
+        self.input_first_name = page.get_by_placeholder(text="First Name")
+        self.input_last_name = page.get_by_placeholder(text="Last Name")
+        self.input_zip_code = page.get_by_placeholder(text="Zip/Postal Code")
         self.error_missing_info = page.get_by_test_id("error")
 
         self.checkout_item_price = page.locator("[class='cart_item'] [class='inventory_item_price']")

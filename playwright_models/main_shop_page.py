@@ -26,7 +26,7 @@ class ShopPage:
 
     def close_side_menu(self):
         self.close_menu_button.click()
-        self.page.wait_for_load_state()
+        self.page.wait_for_timeout(timeout=500)
 
     def open_shopping_cart(self):
         self.shopping_cart_button.click()

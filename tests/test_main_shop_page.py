@@ -1,13 +1,15 @@
 import pytest
 from playwright_models.main_shop_page import ShopPage
 
+URL = "https://www.saucedemo.com/inventory.html"
+
 
 def test_check_side_menu_items(page, playwright, login_cookie):
     shop = ShopPage(page, playwright)
 
     # Skip login and navigate to shop page
     page.context.add_cookies([login_cookie])
-    page.goto(url="https://www.saucedemo.com/inventory.html")
+    page.goto(url=URL)
 
     # Open the side menu and assert expected options
     shop.open_side_menu()
@@ -28,14 +30,14 @@ def test_side_menu_functionality(page, playwright, menu_option, login_cookie):
 
     # Skip login and navigate to shop page
     page.context.add_cookies([login_cookie])
-    page.goto(url="https://www.saucedemo.com/inventory.html")
+    page.goto(url=URL)
 
     # Open the side menu and try the options
     if menu_option == "All Items":
         shop.open_shopping_cart()
         shop.open_side_menu()
         shop.menu_all_items_button.click()
-        page.expect_navigation(url="https://www.saucedemo.com/inventory.html")
+        page.expect_navigation(url=URL)
 
     elif menu_option == "About":
         shop.open_side_menu()
@@ -53,7 +55,7 @@ def test_item_filtering_options(page, playwright, login_cookie):
 
     # Skip login and navigate to shop page
     page.context.add_cookies([login_cookie])
-    page.goto(url="https://www.saucedemo.com/inventory.html")
+    page.goto(url=URL)
 
     # Use inventory filters and check that the ordering is correct
     # Filter Z-A
@@ -82,7 +84,7 @@ def test_adding_items_to_cart(page, playwright, login_cookie):
 
     # Skip login and navigate to shop page
     page.context.add_cookies([login_cookie])
-    page.goto(url="https://www.saucedemo.com/inventory.html")
+    page.goto(url=URL)
 
     # Add first three available items to shopping cart and assert correct amount of items is displayed
     shop.add_items_to_cart(amount_of_items=3)

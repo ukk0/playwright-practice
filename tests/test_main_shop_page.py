@@ -5,7 +5,7 @@ from playwright_models.main_shop_page import ShopPage
 def test_check_side_menu_items(page, playwright, login_cookie):
     shop = ShopPage(page, playwright)
 
-    # Skip login and navigate to page
+    # Skip login and navigate to shop page
     page.context.add_cookies([login_cookie])
     page.goto(url="https://www.saucedemo.com/inventory.html")
 
@@ -26,13 +26,13 @@ def test_check_side_menu_items(page, playwright, login_cookie):
 def test_side_menu_functionality(page, playwright, menu_option, login_cookie):
     shop = ShopPage(page, playwright)
 
-    # Skip login and navigate to page
+    # Skip login and navigate to shop page
     page.context.add_cookies([login_cookie])
     page.goto(url="https://www.saucedemo.com/inventory.html")
 
     # Open the side menu and try the options
     if menu_option == "All Items":
-        shop.shopping_cart_button.click()
+        shop.open_shopping_cart()
         shop.open_side_menu()
         shop.menu_all_items_button.click()
         page.expect_navigation(url="https://www.saucedemo.com/inventory.html")
@@ -46,3 +46,48 @@ def test_side_menu_functionality(page, playwright, menu_option, login_cookie):
         shop.open_side_menu()
         shop.menu_logout_button.click()
         page.expect_navigation(url="https://www.saucedemo.com/")
+
+
+def test_item_filtering_options(page, playwright, login_cookie):
+    shop = ShopPage(page, playwright)
+
+    # Skip login and navigate to shop page
+    page.context.add_cookies([login_cookie])
+    page.goto(url="https://www.saucedemo.com/inventory.html")
+
+    # Use inventory filters and check that the ordering is correct
+    # Filter Z-A
+    shop.use_inventory_filter(filter_option="za")
+    all_items = shop.inventory_items.all_inner_texts()
+    assert all_items == sorted(all_items, reverse=True)
+
+    # Filter A-Z
+    shop.use_inventory_filter(filter_option="az")
+    all_items = shop.inventory_items.all_inner_texts()
+    assert all_items == sorted(all_items)
+
+    # Filter the highest price to the lowest
+    shop.use_inventory_filter(filter_option="hilo")
+    all_prices = [float(price[1:]) for price in shop.inventory_prices.all_inner_texts()]
+    assert all_prices == sorted(all_prices, reverse=True)
+
+    # Filter the lowest price to the highest
+    shop.use_inventory_filter(filter_option="lohi")
+    all_prices = [float(price[1:]) for price in shop.inventory_prices.all_inner_texts()]
+    assert all_prices == sorted(all_prices)
+
+
+def test_adding_items_to_cart(page, playwright, login_cookie):
+    shop = ShopPage(page, playwright)
+
+    # Skip login and navigate to shop page
+    page.context.add_cookies([login_cookie])
+    page.goto(url="https://www.saucedemo.com/inventory.html")
+
+    # Add first three available items to shopping cart and assert correct amount of items is displayed
+    shop.add_items_to_cart(amount_of_items=3)
+    assert shop.cart_item_count() == 3
+
+    # Remove two items from shopping cart and assert correct amount of items remain
+    shop.remove_items_from_cart(amount_of_items=2)
+    assert shop.cart_item_count() == 1

@@ -13,8 +13,9 @@ class ShopPage:
         self.close_menu_button = page.get_by_role(role="button", name="Close Menu")
 
         self.inventory_filter = page.get_by_test_id("product_sort_container")
-        self.inventory_items = page.locator("[class='inventory_list'] [class='inventory_item_name']")
-        self.inventory_prices = page.locator("[class='inventory_list'] [class='inventory_item_price']")
+        self.inventory_item_names = page.locator("[class='inventory_list'] [class='inventory_item_name']")
+        self.inventory_item_prices = page.locator("[class='inventory_list'] [class='inventory_item_price']")
+
         self.shopping_cart_button = page.locator("[class='shopping_cart_container'] [class='shopping_cart_link']")
         self.add_item_to_cart = page.get_by_text(text="Add to cart")
         self.remove_item_from_cart = page.get_by_text(text="Remove")
@@ -22,7 +23,7 @@ class ShopPage:
 
     def open_side_menu(self):
         self.hamburger_menu.click()
-        self.page.wait_for_load_state()
+        self.page.wait_for_timeout(timeout=500)
 
     def close_side_menu(self):
         self.close_menu_button.click()

@@ -14,15 +14,17 @@ def test_check_side_menu_items(page, playwright, login_cookie):
     page.context.add_cookies([login_cookie])
     page.goto(url=SHOP_URL)
 
-    # Open the side menu and assert expected options
+    # Click on the side menu and verify it is opened
     shop.open_side_menu()
     assert shop.side_menu_wrapper.is_visible()
+
+    # Assert expected options are offered
     assert shop.menu_all_items_button.is_visible()
     assert shop.menu_about_button.is_visible()
     assert shop.menu_logout_button.is_visible()
     assert shop.menu_reset_app_button.is_visible()
 
-    # Close the side menu and assert it is closed
+    # Close the side menu and assert it gets closed
     shop.close_side_menu()
     assert not shop.side_menu_wrapper.is_visible()
 
@@ -35,7 +37,7 @@ def test_side_menu_functionality(page, playwright, menu_option, login_cookie):
     page.context.add_cookies([login_cookie])
     page.goto(url=SHOP_URL)
 
-    # Open the side menu and try the options
+    # Open the side menu and try each option
     if menu_option == "All Items":
         shop.open_shopping_cart()
         shop.open_side_menu()
@@ -63,22 +65,22 @@ def test_item_filtering_options(page, playwright, login_cookie):
     # Use inventory filters and check that the ordering is correct
     # Filter Z-A
     shop.use_inventory_filter(filter_option="za")
-    all_items = shop.inventory_items.all_inner_texts()
+    all_items = shop.inventory_item_names.all_inner_texts()
     assert all_items == sorted(all_items, reverse=True)
 
     # Filter A-Z
     shop.use_inventory_filter(filter_option="az")
-    all_items = shop.inventory_items.all_inner_texts()
+    all_items = shop.inventory_item_names.all_inner_texts()
     assert all_items == sorted(all_items)
 
     # Filter the highest price to the lowest
     shop.use_inventory_filter(filter_option="hilo")
-    all_prices = [float(price[1:]) for price in shop.inventory_prices.all_inner_texts()]
+    all_prices = [float(price[1:]) for price in shop.inventory_item_prices.all_inner_texts()]
     assert all_prices == sorted(all_prices, reverse=True)
 
     # Filter the lowest price to the highest
     shop.use_inventory_filter(filter_option="lohi")
-    all_prices = [float(price[1:]) for price in shop.inventory_prices.all_inner_texts()]
+    all_prices = [float(price[1:]) for price in shop.inventory_item_prices.all_inner_texts()]
     assert all_prices == sorted(all_prices)
 
 
